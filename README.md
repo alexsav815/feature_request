@@ -1,5 +1,9 @@
 # feature_request
-Prototype for enetring/viewing/sorting feature requests 
+Prototype for enetring/viewing/sorting feature requests.
+
+Currently, request data can be entered to database ('Enter Request'). For the same client, request priorities are updated based on the current eneterd priority.
+
+'View Requests' is under construction. It will pull list of requests based on one or more filtering criteris, e.g. date range, client name, etc.
 
 The web application utilizes the following stack: <br>
 1) Server: Apache 2.4.7/Ubuntu OS <br>
