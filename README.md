@@ -7,7 +7,13 @@ The web application utilizes the following stack: <br>
 3) Layout/Interaction: HTML5/CSS/jQuery/Javascript <br>
 4) Server side scripting: PHP 5.5.9/Mongodb drivers <br>
 
-To run the web-site on localhost, make sure symbolic link to the main project directory (containing index.html) is established in /var/www/html.   
+Apache and MongoDB servers must be started.
+To run the web-site on localhost, make sure symbolic link to the main project directory (containing index.html) is established in /var/www/html. e.g. <br>
+
+cd /var/www/html <br>
+sudo ln -s /path/to/projectdir linkname <br>
+
+Launch web site as localhost/linkname. <br>
 
 Author: <br>
 <i>Alexey Savelyev</i>, PhD <br>
