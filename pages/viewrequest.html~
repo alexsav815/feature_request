@@ -1,0 +1,13 @@
+<form id="view_request" style="width:800px;margin-left:100px">
+
+  <tr><td colspan=5> 
+    <div>
+      <p><span style="font-weight:bold;font-size:20pt;font-family:\'Times New Roman\'"> View/Sort Feature Requests </span></p>      
+    </div> 
+  </td></tr>
+
+<span id="view_request_input_area"></span>
+
+
+</form>
+

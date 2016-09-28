@@ -1,0 +1,237 @@
+<form id="enter_request" style="width:800px;margin-left:100px">
+
+  <tr><td colspan=5> 
+    <div>
+      <p><span style="font-weight:bold;font-size:20pt;font-family:\'Times New Roman\'"> Enter Feature Request </span></p>      
+    </div> 
+  </td></tr>
+
+<span id="enter_request_input_area"></span>
+<script>
+
+input_eval = "";
+input_html = "<table>";
+
+$('#enter_request').on("keyup keypress", function(e) { var code = e.keyCode || e.which;  if (code  == 13) { e.preventDefault(); return false; }});
+this_html = '<tr><td><label for="title">Title </label></td><td><input type="text" name="title" id="title" required class="help_link"><span class="help">Enter request title</span><span id="title_msg" class="warning field_msg" > </span></td></tr>';
+
+this_eval = 'ga.value.registerid("enter_request","title","Title","text");'
++ '$( "#title" ).blur( function() { ga.valid.checkText( "#title" ); });'
++ 
+'ga.value.setLastValue( "enter_request", "#title" );$( "#title" ).keypress( function() { $( "#title_msg" ).html( "" ); });';
+
+
+input_html += this_html;
+input_eval += this_eval;
+this_html = '<tr><td><label for="description">Description </label></td><td><textarea name="description" id="description" rows="5" cols="60" required class="help_link"></textarea>'
++ '<span class="help">Enter request description</span>'
++ '<span id="description_msg" class="warning field_msg" > </span></td></tr>';
+
+this_eval = 'ga.value.registerid("enter_request","description","Description","text");' 
++
+'ga.value.setLastValue( "enter_request", "#description" );' +
+'$( "#description" ).keypress( function() { $( "#description_msg" ).html( "" ); });';
+
+
+input_html += this_html;
+input_eval += this_eval;
+this_html = '<tr><td><label for="client">Client </label></td><td><select id="client" name="client" class="help_link"><option value="ca">Client A</option><option value="cb">Client B</option><option value="cc">Client C</option></select>'
++ '<span class="help">Chose the client</span>'
++ '</td></tr>';
+
+this_eval = '$( "#client" ).attr( "value", $( "#client" ).val() );' +
+'ga.value.setLastValue( "enter_request", "#client" );';
+
+;
+
+input_html += this_html;
+input_eval += this_eval;
+ga.tmp.html = '';
+
+
+this_html = '<tr>' +
+'<td><label for="priority">Client Priority </label></td>' + 
+'<td><input type="number" name="priority" id="priority" value="1" data-type="integer" min="1" max="10"' +
+' class="help_link"><span class="help">Chose client priority</span><span id="priority_msg" class="warning field_msg" > </span></td></tr>';
+
+this_eval = 'ga.value.setLastValue( "enter_request", "#priority" );'
++ 'ga.value.registerid("enter_request","priority","Client Priority");'
++ '$( "#priority" ).on("change blur", function() { ga.valid.checkInt( "#priority" );'
++ '});'
++ '$( "#priority" ).keypress( function() { $( "#priority_msg" ).html( "" ); });';
+
+;
+
+
+input_html += this_html;
+input_eval += this_eval;
+this_html = '<tr><td><label for="targetdate">Target Date </label></td><td><input type="text" name="targetdate" id="targetdate" required pattern="^(0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])[- /.](19|20)[0-9][0-9]$"  class="help_link"><span class="help">Enter target date: MM/DD/YYYY</span><span id="targetdate_msg" class="warning field_msg" > </span></td></tr>';
+this_eval = 'ga.value.registerid("enter_request","targetdate","Target Date","text");'
++ '$( "#targetdate" ).blur( function() { ga.valid.checkText( "#targetdate" ); });'
++ 
+'ga.value.setLastValue( "enter_request", "#targetdate" );$( "#targetdate" ).keypress( function() { $( "#targetdate_msg" ).html( "" ); });';
+
+
+input_html += this_html;
+input_eval += this_eval;
+this_html = '<tr><td><label for="productarea">Product Area </label></td><td><select id="productarea" name="productarea" class="help_link"><option value="policies">Policies</option><option value="billing">Billing</option><option value="claims">Claims</option><option value="reports">Reports</option></select>'
++ '<span class="help">Chose product area</span>'
++ '</td></tr>';
+
+this_eval = '$( "#productarea" ).attr( "value", $( "#productarea" ).val() );' +
+'ga.value.setLastValue( "enter_request", "#productarea" );';
+
+;
+
+
+input_html += this_html;
+input_eval += this_eval;
+input_html += '</table>';
+$( '#enter_request_input_area' ).html( input_html );
+eval( input_eval );
+</script>
+<p><button id="enter_request_submit" class="help_link"><span class="buttontext">Submit</span></button>
+<span class="help">this is help for the submit button</span>
+<button id="enter_request_reset" class="help_link"><span class="buttontext">Reset to default values</span></button>
+<span class="help">this is help for the reset to default values button</span>
+
+</p>
+
+<span id="enter_request_progress"></span>
+
+<script>
+
+$( "#enter_request_submit" ).click( function( e ) {
+   e.preventDefault();
+   e.returnValue = false;
+   $( "#enter_request" ).find( ".toclear" ).remove();   
+
+   return do_enter_request_submit( $(this) );
+});
+
+function do_enter_request_submit( $form, airavataresource, skipcached ) {
+
+   if ( !ga.valid.checksubmit( "enter_request" ) ) {
+       ga.valid.showerrormessage();
+       return false;
+   }
+    
+    $( "#enter_request_results" ).text( "" );
+
+    var found_errors = 0;
+    $("#enter_request").find("input").each(function(i){
+       if ( $(this).attr( 'required' ) && $(this).val().length == 0 )
+       {
+          var tag =  "#enter_request " + "#" + $(this).attr('id') + "_msg";
+
+          $( tag ).html( "missing required field" );
+          found_errors = 1;
+       }
+    });
+    if ( found_errors ) {
+        return;
+    }
+
+
+    var formData = new FormData($('form')[0]);
+
+    $.ajax( {
+             dataType: "json",
+             cache:false,
+//             timeout:3000,  // for testing
+             type:"POST",
+             url:"ajax/enter_request.php",
+             data: formData,
+             xhr: function() {  // Custom XMLHttpRequest
+                 var myXhr = $.ajaxSettings.xhr();
+                 if(myXhr.upload){ // Check if upload property exists
+                     myXhr.upload.addEventListener('progress',
+                         function(e) {
+                         if(e.lengthComputable){
+                           $('#enter_request_progress progress').attr({value:e.loaded,max:e.total});
+                         } }
+//                     progressHandlingFunction
+                    , false);
+                 }
+                 return myXhr;
+             },
+             contentType: false,
+             processData: false
+            } )
+    .done( function( data, status, xhr ) {
+          job_status = ga.data.update( "enter_request", data ).job_status;
+     })
+    .fail( function( xhr, status, errorThrown ) {
+         $( "#enter_request_results" ).html( "<span class=\"warning\"> Failed: " + status + " : '" + xhr.status + ":" + errorThrown + "' on URL ajax/enter_request.php </span>" );
+         $('#enter_request_progress').html( "" );
+      });
+    
+   }
+
+$( "#enter_request_reset" ).click( function() {
+   return enter_request_reset();
+});
+
+enter_request_reset = function() {
+    
+    if ( !0 ) {
+        // required to reset scrollheight ... 
+        document.getElementById( "enter_request_output_textarea" ).style.height = 0;
+    }
+    ga.valid.clearerrorcounter();
+
+     $("#enter_request :input" ).each(function() {
+       var t = $("#" + $( this ).attr( "id" ));
+       //console.log ("ID: " +  "#" + $( this ).attr( "id" ) + "_msg");
+       t.val( t.attr( "value" ) );
+       $( "#" + $( this ).attr( "id" ) + "_msg" ).html( "" );
+     });
+     
+     $("#enter_request_output :input" ).each(function() {
+       var t = $("#" + $( this ).attr( "id" ));
+       //console.log ("ID: " +  "#" + $( this ).attr( "id" ) + "_msg");
+       t.val( t.attr( "value" ) );
+       $( "#" + $( this ).attr( "id" ) + "_msg" ).html( "" );
+     });
+
+     $("#enter_request_output_msgs").text("");
+     $("#logfile_filelink").html("");
+
+
+    return false;
+}
+
+
+setHoverHelp();
+</script>
+</form>
+
+<!-- - ----------------------------------------------------------------------------------------------------->
+
+<div id="enter_request_results"></div>
+<script>
+ga.tmp.html = "<hr>";
+$("#enter_request").append( ga.tmp.html );
+</script>
+
+<!-- - ----------------------------------------------------------------------------------------------------->
+
+<form id="enter_request_output" style="width:800px;margin-left:100px">
+<div id="enter_request_output_msgs" class="warning" type="msgs"></div>
+<span id="enter_request_output_airavata"></span>
+
+<table>
+  <tr>
+    <td colspan="4" style="vertical-align:top"><label hidden id="enter_request_output_textarea_label" for="enter_request_output_textarea" class="header3 ">Report:</label>
+      <textarea readonly hidden id="enter_request_output_textarea" cols="60" class="help_link"></textarea>
+      <span class="help">general textarea help</span>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <label for="status">Status </label></td><td><textarea name="status" id="status" rows="4" cols="50" readonly></textarea>
+    </td>
+  </tr>
+</table>
+
+</form>

@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>MyWebSite</title>
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="js/ga_my.js"></script>
+    
+    <style>
+      
+      .verticaltext{
+      writing-mode:bt-lr;
+      -webkit-transform: translate(30%) rotate(270deg) ;
+      -moz-transform:  translate(30%) rotate(270deg) ;
+      -o-transform: translate(30%) rotate(270deg) ;
+      -ms-transform: translate(30%) rotate(270deg) ;
+      transform:  translate(25%) rotate(270deg) ;
+      }
+      body {
+      background: rgb( 192,192,192);
+      color: rgb( 0,0,0 );
+      }
+      header {
+      left: 10;
+      padding-left: 10px;
+      background: rgb( 102,0,0 );
+      color: rgb( 0,0,0 );
+      }
+      
+           .header1 {
+       font-size: 2em;
+       color: rgb( 0,0,0 );
+     }
+     .header2 {
+       font-size: 1.75em;
+       color: rgb( 0,0,0 );
+     }
+     .header3 {
+       font-size: 1.5em;
+       color: rgb( 0,0,0 );
+     }
+     .header4 {
+       font-size: 1.25em;
+       color: rgb( 0,0,0 );
+     }
+     .svgmenu {
+	 color: rgb(220,210,210);
+	 stroke: rgb(255,255,255);
+	 padding: 5px;
+     }
+     .cssload-wrap {
+	 position: absolute;
+	 margin: 0 auto 0;
+	 left: 50%;
+	 top: 45%;
+	 margin-left: -218px;
+	 transform: rotateX(75deg);
+     }
+     #lined_content {
+	 margin: 50px 0 0 100px;
+	 max-height: 200px;
+	 width:400px;
+	 overflow-y: auto;
+	 overflow-x: hidden;
+     }
+     #panelmain {
+	 position: relative;
+	 display: block;  
+     }
+     .sidebar {
+	 position: absolute;
+	 left: 10;
+	 padding-left: 0px;
+	 padding-right: 20px;
+	 text-align: left;
+	 display: block;
+	 background: rgb( 0,102,204 );
+	 color: rgb( 228,255,250 );
+     }
+     .sidebar ul li {
+	 display: block;  
+	 width: 140px;  
+	 width: 280px;
+	 font-size: 18px;  
+	 line-height: 44px;  
+	 text-align: center;  
+	 
+	 vertical-align: middle;
+	 text-decoration: none;  
+	 //color: rgb( 220,210,210 );
+     }
+     .sidebar ul li img {
+	 vertical-align: middle;
+	 float: right;
+     }
+     .sidebar ul li:hover {
+	 color: rgb( 200,128,0 );  
+     }
+     
+     .pagetitle {
+       z-index: 1;
+     }
+     
+     td {
+	 padding-top:  0;
+	 padding-left: 0;
+	 padding-bottom: 0;
+     }
+     
+     table {
+	 border-collapse: collapse;
+     }
+     .hidden {
+	 opacity: 0;  
+	 visibility: hidden;
+     }
+     .title {
+	 text-decoration: none;
+	 outline: 0;
+     }
+     .title:link {
+	 color: rgb( 220,210,210 );
+     }
+     
+     .title:visited {
+	 color: rgb( 220,210,210 );
+     }
+     
+     .title:active {
+	 color: rgb( 220,210,210 );
+     }
+     .title:hover {
+	 color: rgb( 200,128,0 );  
+     }
+     .box-shadow-menu { 
+	 vertical-align:middle;
+	 font-size: 2em;
+     }
+     
+     .box-shadow-menu:hover { 
+	 color: rgb(200,128,0);
+	 stroke: rgb(200,128,0);
+     }
+     
+     .help {
+	 background-color: rgba(170,170,170, 0.95 );
+	 color: rgb(0,25,255);
+	 border-radius: .5em;
+	 box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+	 opacity: 0; /* Make it transparent */
+	 padding: .5em;
+	 position: absolute;
+	 text-decoration: none;
+	 visibility: hidden; /* and hidden */
+	 /*    width: 25em; */
+	 z-index: 10;
+     }
+     .helpright {
+	 top: 60px;
+     }
+     
+     .helpleft {
+	 left: 10px;
+	 min-width: 20em;
+     }   
+     .help_link_on:hover + span {
+	 opacity: 1;
+	 visibility: visible;
+     }
+     
+     
+     .config {
+	 vertical-align: middle;
+	 float: right;
+     }   
+     .opacity {
+	 opacity: 0.7;
+	 filter: alpha(opacity=70);
+	 -webkit-transition: opacity 1s linear;
+     }
+     
+     .opacity:hover {
+	 opacity: 1;
+	 filter: alpha(opacity=100);
+	 -webkit-transition: opacity 1s linear;
+     }
+     .hoverhighlight {
+	 text-align: right;
+	 color: rgb(255,255,255);
+     }
+     
+     .hoverhighlight:hover {
+	 color: rgb( 200,128,0 );  
+     }
+     
+     .modalDialog {
+	 position: fixed;
+	 /*             font-family: Arial, Helvetica, sans-serif; */
+	 top: 0;
+	 right: 0;
+	 bottom: 0;
+	 left: 0;
+	 background: rgba(0,0,0,0.8);
+	 z-index: 99999;
+	 opacity:0;
+	 -webkit-transition: opacity 400ms ease-in;
+	 -moz-transition: opacity 400ms ease-in;
+	 transition: opacity 400ms ease-in;
+	 pointer-events: none;
+     }
+     
+     .modalDialog_on {
+       opacity:1;
+       pointer-events: auto;
+     }
+     
+     .modalDialog > div {
+       width: 50%;
+       position: relative;
+       margin: 10% auto;
+       padding: 5px 20px 13px 20px;
+       border-radius: 10px;
+       background: rgb( 185,185,185 );
+       background: -moz-linear-gradient(rgb( 185,185,185 ), #222);
+       background: -webkit-linear-gradient(rgb( 185,185,185 ), #222);
+       background: -o-linear-gradient(rgb( 185,185,185 ), #222);
+      // overflow-x: scroll;
+       //overflow-y: hidden;
+     }
+     
+     .close {
+       background: #606061;
+       color: #FFFFFF;
+       line-height: 25px;
+       position: absolute;
+       right: -12px;
+       text-align: center;
+       top: -10px;
+       width: 24px;
+       text-decoration: none;
+       font-weight: bold;
+       -webkit-border-radius: 12px;
+       -moz-border-radius: 12px;
+       border-radius: 12px;
+       -moz-box-shadow: 1px 1px 3px #000;
+       -webkit-box-shadow: 1px 1px 3px #000;
+       box-shadow: 1px 1px 3px #000;
+     }
+     
+     .close:hover { background: #00d9ff; }
+    
+     .modalDialog2 {
+       position: fixed;
+/*             font-family: Arial, Helvetica, sans-serif; */
+   top: 0;
+   right: 0;
+   bottom: 0;
+   left: 0;
+   background: rgba(0,0,0,0.8);
+   z-index: 99998;
+   opacity:0;
+   -webkit-transition: opacity 400ms ease-in;
+   -moz-transition: opacity 400ms ease-in;
+   transition: opacity 400ms ease-in;
+   pointer-events: none;
+}
+
+.modalDialog2_on {
+   opacity:1;
+   pointer-events: auto;
+}
+
+.modalDialog2 > div {
+   width: 55%;
+   position: relative;
+   margin: 10% auto;
+   padding: 5px 20px 13px 20px;
+   border-radius: 10px;
+   background: rgb( 195,200,200 );
+   background: -moz-linear-gradient(rgb( 195,200,200 ), #222);
+   background: -webkit-linear-gradient(rgb( 195,200,200 ), #222);
+   background: -o-linear-gradient(rgb( 195,200,200 ), #222);
+}
+
+.close2 {
+   background: #606061;
+   color: #FFFFFF;
+   line-height: 25px;
+   position: absolute;
+   right: -12px;
+   text-align: center;
+   top: -10px;
+   width: 24px;
+   text-decoration: none;
+   font-weight: bold;
+   -webkit-border-radius: 12px;
+   -moz-border-radius: 12px;
+   border-radius: 12px;
+   -moz-box-shadow: 1px 1px 3px #000;
+   -webkit-box-shadow: 1px 1px 3px #000;
+   box-shadow: 1px 1px 3px #000;
+}
+
+.close2:hover { background: #00d9ff; }
+
+.modalDialog3 {
+   position: fixed;
+/*             font-family: Arial, Helvetica, sans-serif; */
+   top: 0;
+   right: 0;
+   bottom: 0;
+   left: 0;
+   background: rgba(0,0,0,0.8);
+   z-index: 99999;
+   opacity:0;
+   -webkit-transition: opacity 400ms ease-in;
+   -moz-transition: opacity 400ms ease-in;
+   transition: opacity 400ms ease-in;
+   pointer-events: none;
+}
+
+.modalDialog3_on {
+   opacity:1;
+   pointer-events: auto;
+}
+   
+
+.table-wrapper {
+   overflow: auto;
+   max-height: 400px;
+}
+
+.modalDialog3 > div {
+   max-width: 70%;
+   position: relative;
+   margin: 10% auto;
+   padding: 5px 20px 13px 20px;
+   max-height: 95%;
+   border-radius: 10px;
+   background: rgb( 195,200,200 );
+   background: -moz-linear-gradient(rgb( 195,200,200 ), #222);
+   background: -webkit-linear-gradient(rgb( 195,200,200 ), #222);
+   background: -o-linear-gradient(rgb( 195,200,200 ), #222);
+}
+
+.close3 {
+   background: #606061;
+   color: #FFFFFF;
+   line-height: 25px;
+   position: absolute;
+   right: -12px;
+   text-align: center;
+   top: -10px;
+   width: 24px;
+   text-decoration: none;
+   font-weight: bold;
+   -webkit-border-radius: 12px;
+   -moz-border-radius: 12px;
+   border-radius: 12px;
+   -moz-box-shadow: 1px 1px 3px #000;
+   -webkit-box-shadow: 1px 1px 3px #000;
+   box-shadow: 1px 1px 3px #000;
+}
+
+.close3:hover { background: #00d9ff; }
+
+.modalDialog4 {
+   position: fixed;
+/*             font-family: Arial, Helvetica, sans-serif; */
+   top: 0;
+   right: 0;
+   bottom: 0;
+   left: 0;
+   background: rgba(0,0,0,0.8);
+   z-index: 99999;
+   opacity:0;
+   -webkit-transition: opacity 400ms ease-in;
+   -moz-transition: opacity 400ms ease-in;
+   transition: opacity 400ms ease-in;
+   pointer-events: none;
+}
+
+.modalDialog4_on {
+   opacity:1;
+   pointer-events: auto;
+}
+   
+.modalDialog4 > div {
+   max-width: 70%;
+   position: relative;
+   margin: 10% auto;
+   padding: 5px 20px 13px 20px;
+   max-height: 95%;
+   border-radius: 10px;
+   background: rgb( 195,200,200 );
+   background: -moz-linear-gradient(rgb( 195,200,200 ), #222);
+   background: -webkit-linear-gradient(rgb( 195,200,200 ), #222);
+   background: -o-linear-gradient(rgb( 195,200,200 ), #222);
+}
+
+.close4 {
+   background: #606061;
+   color: #FFFFFF;
+   line-height: 25px;
+   position: absolute;
+   right: -12px;
+   text-align: center;
+   top: -10px;
+   width: 24px;
+   text-decoration: none;
+   font-weight: bold;
+   -webkit-border-radius: 12px;
+   -moz-border-radius: 12px;
+   border-radius: 12px;
+   -moz-box-shadow: 1px 1px 3px #000;
+   -webkit-box-shadow: 1px 1px 3px #000;
+   box-shadow: 1px 1px 3px #000;
+}
+
+.close4:hover { background: #00d9ff; }  
+     
+     button {
+       outline: none;
+       /*  cursor: none; */
+       border: 0px;
+       text-decoration: none;
+       text-shadow: 0 1px 1px rgba(0,0,0,.3);
+       border-radius: .2em;
+       -webkit-border-radius: .2em; 
+       -moz-border-radius: .2em;
+       background-color: rgb( 228,255,250 );
+       background: -webkit-gradient(linear, left top, left bottom, from( rgb( 228,255,250 ) ), to( rgb( 128,170,150 ) ));
+       background: -moz-linear-gradient(top, rgb( 228,255,250 ),  rgb( 128,170,150 ) );
+       filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr=rgb( 128,170,150 ), endColorstr=rgb( 128,170,150 ));
+       padding: 0;
+       padding-left: 2px; 
+       padding-right: 2px; 
+     }
+     button:hover {
+       /*   opacity: .5; */
+       background-color: rgb( 255,255,255 );
+       background: -webkit-gradient(linear, left top, left bottom, from( rgb( 255,255,255 ) ), to( rgb( 228,255,250 ) ));
+       background: -moz-linear-gradient(top, rgb( 255,255,255 ),  rgb( 228,255,250 ) );
+       filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr=rgb( 228,255,250 ), endColorstr=rgb( 228,255,250 ));
+       /*   color: rgb( 255, 128, 0 );   */
+     }
+     
+     button:active {
+       position: relative;
+       top: 1px;
+       left: 1px;
+     }
+     .warning {
+       color: rgb( 0,25,255 );
+     }
+     
+     .overflow {
+       overflow-x : auto;
+       overflow-y : auto;
+     }
+
+     .plot2ddeff {
+       width: 600px;
+       height: 300px;
+     }
+     
+     .coord {
+       background-color: rgba(0,0,75, 0.95 );
+       color: rgb(240,240,210);
+       border-radius: .5em;
+       box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+       opacity: 0; /* Make it transparent */
+       padding: .5em;
+       position: absolute;
+       text-decoration: none;
+       visibility: hidden;
+       /*    width: 25em; */
+       z-index: 10;
+     }
+     
+     .coordvisible {
+       opacity: 1;
+       visibility: visible;
+     }
+
+    </style>
+  </head>
+
+  <header>
+    <span class="pagetitle"><a href="" class="title help_link" target="_blank" ><h2>Feature Request - PreAlpha</h2></a><span class="help">this is application help</span></span>
+      
+    <table width=100% cellpadding="10" > <tr>
+      
+      <td> 
+	<span id="menuspan" onclick="menuOnOff(event);" class="box-shadow-menu help_link"> 
+	  <svg class="svgmenu" width="20" height="20" stroke-width="2.7">
+	    <path d="M0,1.5 20,1.5" />
+	    <path d="M0,9.5 20,9.5" />
+	    <path d="M0,17.5 20,17.5" />
+	  </svg>
+	  <span id="seabug" height=50px></span>
+	</span>
+	<span class="help">this is menu help</span>
+      </td>
+
+      <td id="_alttitle"><span class="hidden">intentionally left blank</span></td>
+
+      <td align=right >
+	<table cellspacing="0" cellpadding="0">
+	  <tr> 
+	    
+	    <td>
+	      <table cellspacing="0" cellpadding="0">
+		<tr><td><div id="hoverhelp" class="hoverhighlight help_link"></div><span class="help">this is help help</span></td></tr>
+	      </table>
+	    </td>
+	  </tr>
+	      
+	</table>
+      </td>
+    </table>
+
+    <div id="openModal" class="modalDialog">
+      <div>
+	<span id="closeModal" class="close">X</span>
+	<!-- <div id="configbody"></div> -->
+	<div id="configbody" class="overflow"></div>
+      </div>
+    </div>
+    
+    <div id="openModal2" class="modalDialog2">
+      <div>
+	<span id="closeModal2" class="close2">X</span>
+	<div id="configbody2" class="overflow"></div>
+      </div>
+    </div>
+    
+    <div id="openModal3" class="modalDialog3">
+      <div>
+	<span id="closeModal3" class="close3">X</span>
+	<div id="configbody3" class="overflow" ></div>
+      </div>
+    </div>
+    
+    <div id="openModal4" class="modalDialog4">
+      <div>
+	<div id="configbody4" class="overflow"></div>
+      </div>
+    </div>
+  </header>
+
+
+
+ <body>
+    <div id="global_data"> </div>
+    <div id="_state"> </div>
+
+    <script>
+     function resetHoverHelp() {
+       if ( $( "#global_data" ).data( "hoverhelp" ) ||
+	    $( "#global_data" ).data( "hoverhelp" ) != 0 )
+	 {
+	   $( ".help_link" ).removeClass( "help_link_on" );
+	   $( ".help_link" ).addClass( "help_link_on" );
+	 }
+     }
+     
+     function setHoverHelp() {
+       if ( !$( "#global_data" ).data( "hoverhelp" ) ||
+	    $( "#global_data" ).data( "hoverhelp" ) == 0 )
+	 {
+	   
+	   $( ".help_link" ).removeClass( "help_link_on" );
+	   $( "#hoverhelp" ).html( "Help off" );
+	 } else {
+	   
+ 	   $( ".help_link" ).addClass( "help_link_on" );
+	   $( "#hoverhelp" ).html( "Help on" );
+	 }
+     }
+
+     $( "#hoverhelp" ).click(function() {
+       if ( !$( "#global_data" ).data( "hoverhelp" ) ||
+	    $( "#global_data" ).data( "hoverhelp" ) == 0 )
+	 {
+	   
+	   $( "#global_data" ).data( "hoverhelp", 1 );
+	 } else {
+	   
+	   $( "#global_data" ).data( "hoverhelp", 0 );
+	 }
+       setHoverHelp();
+     });
+     $( "#global_data" ).data( "hoverhelp", 1 );
+     setHoverHelp();
+    </script>
+
+
+    <nav class="sidebar toggle">
+      <ul id="navul">
+	<script>
+	 ga.menu = "";
+	 //ga.loader( ".cssload-wrap", 750 );
+	 ga.menu += '<li id="welcome" class="help_link">Welcome<img src="pics/interact.png" width=40px></li>';
+	 ga.set("nohidemenu:welcome",1);
+	 
+	 ga.menu += '<li id="disclaimer_menu" class="help_link">Official Disclaimer<img src="pics/gnu_disclaimer.png" width=40px></li>';
+	 ga.menu += '<li id="acknowledgement" class="help_link">About Author<img src="pics/author.jpg" width=40px></li>';
+	 ga.menu += '<li id="enterrequest" class="help_link">Enter Request<img src="pics/enter.png" width=40px></li>';
+	 ga.menu += '<li id="viewrequest" class="help_link">View Requests<img src="pics/stack.png" width=40px></li>';
+
+	 //ga.set("loginreq:calculate",1);
+	 //ga.set("loginreq:graph",1);
+	 
+	 $( "#navul" ).append( ga.menu );
+	</script>
+      </ul>
+    </nav>
+     
+    <div id="panelmain" >
+      <p></p>
+    </div>
+
+
+    <script>
+     var count = 0;
+     var sidewidth = parseFloat( $( ".sidebar" ).css( "width" ) ) + 
+                     parseFloat( $( ".sidebar" ).css( "padding-left" ) ) +
+                     parseFloat( $( ".sidebar" ).css( "padding-right" ) ) +
+                     parseFloat( $( ".sidebar" ).css( "border-left-width" ) ) +
+                     parseFloat( $( ".sidebar" ).css( "border-right-width" ) ) +
+                     parseFloat( $( ".sidebar" ).css( "margin-left" ) ) +
+                     parseFloat( $( ".sidebar" ).css( "margin-right" ) )
+     ;
+     var speed = 400;
+     $( "#panelmain" ).css( "left", count % 2 ? 0 : sidewidth );
+     
+     $( ".sidebar ul li" ).click( function() {
+       var myTag = $( this ).attr( "id" );
+       //$( "#panelmain" ).load( "pages/" + myTag + ".html",  function(){ resetHoverHelp();  ga.loader.hide(); } );
+       if ( !ga.set.data[ "loginreq:" + myTag ] )
+	 {
+	   $( "#panelmain" ).load( "pages/" + myTag + ".html",  function(){ resetHoverHelp(); ga.tmp.pageID = myTag; } );
+	 }
+       else
+	 {
+	   var s = $( '#_state' );
+	   var l = s.data( '_logon' );
+	   
+	   if ( l && l.length )
+	     {
+	       $( "#panelmain" ).load( "pages/" + myTag + ".html",  function(){ resetHoverHelp(); ga.tmp.pageID = myTag; } );
+	     }
+	   else
+	     {
+	       messagebox( { icon: "toast.png",
+                             text: "User must be logged in to use this module!",
+                             buttons : [ { id : "ok", label : "OK" } ] });
+	       return;
+	     }
+	 }
+	   //$( "#menuspan" ).trigger( "click" );
+       if ( !ga.set.data[ "nohidemenu:" + myTag ] ) { $( "#menuspan" ).trigger( "click" ); };
+     });
+     $( "#welcome" ).trigger( "click" );
+     
+     
+     function menuOnOff(event) {
+       count++;
+       // 
+       var ofs = count % 2 ? 0 : sidewidth;
+       var rightmargin = 0;
+       
+       //        var wid = count % 2 ? '100%' : $("#panelmain").parent().parent().width() - sidewidth - 20;
+       var wid = count % 2 ? $("#panelmain").parent().parent().width() - rightmargin : $("#panelmain").parent().parent().width() - sidewidth - 20 - rightmargin;
+       if ( !0 ) { 
+	 $( ".toggle" ).toggle( speed );
+       } else {
+	 $( ".toggle" ).show();
+       }
+       $( "#panelmain" ).animate( {left: ofs, width: wid }, speed );
+     }
+     
+     $( window ).resize(function() {
+       var ofs = count % 2 ? 0 : sidewidth;
+       var rightmargin = 0;
+       //        var wid = count % 2 ? '100%' : $( "#panelmain" ).parent().parent().width() - sidewidth - 20;
+       var wid = count % 2 ? $("#panelmain").parent().parent().width() - rightmargin : $("#panelmain").parent().parent().width() - sidewidth - 20 - rightmargin;
+       $( "#panelmain" ).css( "left", ofs ).css( "width", wid );
+     } );
+     
+     function closeModal()
+     {
+       // ga.repeats.restore();
+       $( ".modalDialog" ).removeClass( "modalDialog_on" );
+       setTimeout(function(){
+	 $( "#configbody" ).html( "" );
+       }, 400);
+       //setTimeout(function() { splashlogin() }, 500 );
+     }
+     
+     $( "#closeModal" ).click( function() {
+       closeModal();
+     });
+     
+     function closeModal2()
+     {
+      // ga.repeats.restore();
+       $( ".modalDialog2" ).removeClass( "modalDialog2_on" );
+       setTimeout(function(){
+	 $( "#configbody2" ).html( "" );
+       }, 400);
+       //setTimeout(function() { splashlogin() }, 500 );
+     }
+     
+     $( "#closeModal2" ).click( function() {
+       closeModal2();
+     });
+     
+     function closeModal3()
+     {
+       // ga.repeats.restore();
+       $( ".modalDialog3" ).removeClass( "modalDialog3_on" );
+       $( "#configbody3" ).html( "" );
+       var ws = $( "#_state" ).data( "__msgs" );
+       if ( ws && ws.length )
+	 {
+	   
+	   var m = ws.shift();
+	   $( "#_state" ).data( "__msgs", ws );
+	   messagebox( m, 1 );
+	 }
+       //setTimeout(function() { splashlogin() }, 500 );
+     }
+     
+     $( "#closeModal3" ).click( function() {
+       closeModal3();
+     });
+     
+     function closeModal4()
+     {
+       //ga.repeats.restore();
+       $( ".modalDialog4" ).removeClass( "modalDialog4_on" );
+       $( "#configbody4" ).html( "" );
+       
+       { 
+	 ga.apprun = 0;
+	 //setTimeout(function() { splashlogin() }, 500 );
+       }
+     }
+     
+     $( "#closeModal4" ).click( function() {
+       closeModal4();
+     });
+     
+     // MESSAGE BOX /////////////////////////////////////////////////////////////////////////////////
+     
+     function messagebox( m, force, mnum )
+     {
+       mnum = mnum || 3;
+       
+       if ( !force )
+	 {
+	   if ( $( ".modalDialog" + mnum ).hasClass( "modalDialog" + mnum + "_on" ) )
+	     {
+               var ws = $( "#_state" ).data( "__msgs" );
+               if ( !ws || (ws && ( Object.prototype.toString.call( ws ) != '[object Array]' ) ) )
+		 {
+		   ws = [];
+		 }
+               ws.push( m );
+               $( "#_state" ).data( "__msgs",  ws );
+               return;
+	     }
+	 }
+       if ( m.icon )
+	 {
+	   $( "#configbody" + mnum ).html( "<table style='width:95%;vertical-align:middle'><tr><td style='width:10%'><img src='pngs/" + m.icon + "' width=40px></td><td style='text-align:center'>" + m.text + "</td></tr></table>" );
+	 } else {
+	   $( "#configbody" + mnum ).html( "<center>" + m.text + "</center>" );
+	 }
+       
+       if ( m.buttons ) {
+	 tmp = "<center><table><tr>";
+	 for ( i = 0; i < m.buttons.length; i++ ) {
+           tmp = tmp + '<td><button id="_mbb_' + m.buttons[ i ].id + '">' + m.buttons[ i ].label + '</button></td>';
+	 }
+	 tmp = tmp + "</tr></table><center>";
+	 
+	 $( "#configbody" + mnum ).append( tmp );
+	 for ( i = 0; i < m.buttons.length; i++ ) {
+           if ( m.buttons[ i ].cb ) {
+             if ( m.buttons[ i ].adata ) {
+               switch( m.buttons[ i ].adata.length ) {
+                 case 2 :
+                   $( "#_mbb_" + m.buttons[ i ].id ).off().one( "click" , m.buttons[ i ], function( event ) { event.data.cb( event.data.adata[ 0 ], event.data.adata[ 1 ] ); closeaModal( mnum ); } );
+                   break;
+                 case 3 :
+                   $( "#_mbb_" + m.buttons[ i ].id ).off().one( "click" , m.buttons[ i ], function( event ) { event.data.cb( event.data.adata[ 0 ], event.data.adata[ 1 ],  event.data.adata[ 2 ]  ); closeaModal( mnum ); } );
+                   break;
+                 case 4 :
+                   $( "#_mbb_" + m.buttons[ i ].id ).off().one( "click" , m.buttons[ i ], function( event ) { event.data.cb( event.data.adata[ 0 ], event.data.adata[ 1 ],  event.data.adata[ 2 ], event.data.adata[ 3 ] ); closeaModal( mnum ); } );
+                   break;
+                 case 5 :
+                   $( "#_mbb_" + m.buttons[ i ].id ).off().one( "click" , m.buttons[ i ], function( event ) { event.data.cb( event.data.adata[ 0 ], event.data.adata[ 1 ],  event.data.adata[ 2 ], event.data.adata[ 3 ],  event.data.adata[ 4 ] ); closeaModal( mnum ); } )
+                   break;
+                 default : 
+                      console.warn( "in message box unsupported number of adata arguments " + m.buttons[ i ].adata.length )
+                   break;
+               }
+             } else {
+               $( "#_mbb_" + m.buttons[ i ].id ).off().one( "click" , m.buttons[ i ], function( event ) {  event.data.cb( event.data.data ); closeaModal( mnum ); } );
+             }
+           } else {
+             $( "#_mbb_" + m.buttons[ i ].id ).off().one( "click" , m.buttons[ i ], function( event ) {  closeaModal( mnum ); } );
+           }
+	 }
+       }      
+       if ( m.ptext ) {
+	 $( "#configbody" + mnum ).append( m.ptext );
+       }
+       if ( m.eval ) {
+	 eval( m.eval );
+       }
+       //ga.repeats.save();
+       $( ".modalDialog" + mnum ).addClass( "modalDialog" + mnum + "_on" );
+     }
+    
+
+
+     function closeaModal( mnum ) {
+       switch( mnum ) {
+         case 1 : closeModal(); break;
+         case 2 : closeModal2(); break;
+         case 3 : closeModal3(); break;
+         case 4 : closeModal4(); break;
+         default : console_warn( "closeaModal called with unknown modal number " + mnum ); break;
+       }
+     }
+     
+
+    </script>
+
+
+    <script>
+      
+    $(function() {
+       $('.pagetitle').css({
+         'position' : 'absolute',
+         'left' : '50%',
+         'top' : '0%'
+       });
+       $('.pagetitle h2').css({
+         'position' : 'relative',
+         'top'      : -$('.pagetitle').outerHeight() / 11,
+         'left'     : -$('.pagetitle').outerWidth() / 2
+       });
+     });
+     
+      
+    </script>
+
+
+ </body>
+
+</html>
