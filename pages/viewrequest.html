@@ -8,10 +8,181 @@
 
 <span id="view_request_input_area"></span>
 
-<p>
-Under Construction...
+<script>
+
+input_eval = "";
+input_html = "<table>";
+
+this_html = '<tr><td><label for="client">Client </label></td><td><select id="client" name="client" class="help_link"><option value="Client A">Client A</option><option value="Client B">Client B</option><option value="Client C">Client C</option></select>'
++ '<span class="help">Chose the client</span>'
++ '</td></tr>';
+
+this_eval = '$( "#client" ).attr( "value", $( "#client" ).val() );' +
+'ga.value.setLastValue( "view_request", "#client" );';
+
+;
+input_html += this_html;
+input_eval += this_eval;
+ga.tmp.html = '';
+input_html += '</table>';
+
+
+$( '#view_request_input_area' ).html( input_html );
+eval( input_eval );
+</script>
+
+<p><button id="view_request_submit" class="help_link"><span class="buttontext">Submit</span></button>
+<span class="help">this is help for the submit button</span>
+<button id="view_request_reset" class="help_link"><span class="buttontext">Reset to default values</span></button>
+<span class="help">this is help for the reset to default values button</span>
+
 </p>
 
+<span id="view_request_progress"></span>
+
+
+<script>
+
+$( "#view_request_submit" ).click( function( e ) {
+   e.preventDefault();
+   e.returnValue = false;
+   $( "#view_request" ).find( ".toclear" ).remove();   
+
+   return do_view_request_submit( $(this) );
+});
+
+function do_view_request_submit( $form, airavataresource, skipcached ) {
+
+   //if ( !ga.valid.checksubmit( "view_request" ) ) {
+   //    ga.valid.showerrormessage();
+   //    return false;
+  // }
+    
+    $( "#view_request_results" ).text( "" );
+
+    var found_errors = 0;
+    $("#view_request").find("input").each(function(i){
+       if ( $(this).attr( 'required' ) && $(this).val().length == 0 )
+       {
+          var tag =  "#view_request " + "#" + $(this).attr('id') + "_msg";
+
+          $( tag ).html( "missing required field" );
+          found_errors = 1;
+       }
+    });
+    if ( found_errors ) {
+        return;
+    }
+
+
+    var formData = new FormData($('form')[0]);
+
+    $.ajax( {
+             dataType: "json",
+             cache:false,
+//             timeout:3000,  // for testing
+             type:"POST",
+             url:"ajax/view_request.php",
+             data: formData,
+             xhr: function() {  // Custom XMLHttpRequest
+                 var myXhr = $.ajaxSettings.xhr();
+                 if(myXhr.upload){ // Check if upload property exists
+                     myXhr.upload.addEventListener('progress',
+                         function(e) {
+                         if(e.lengthComputable){
+                           $('#view_request_progress progress').attr({value:e.loaded,max:e.total});
+                         } }
+//                     progressHandlingFunction
+                    , false);
+                 }
+                 return myXhr;
+             },
+             contentType: false,
+             processData: false
+            } )
+    .done( function( data, status, xhr ) {
+          job_status = ga.data.update( "view_request", data ).job_status;
+          
+        
+
+     })
+
+    .fail( function( xhr, status, errorThrown ) {
+         $( "#view_request_results" ).html( "<span class=\"warning\"> Failed: " + status + " : '" + xhr.status + ":" + errorThrown + "' on URL ajax/view_request.php </span>" );
+         $('#view_request_progress').html( "" );
+      });
+    
+   }
+
+$( "#view_request_reset" ).click( function() {
+   return view_request_reset();
+});
+
+view_request_reset = function() {
+    
+    if ( !0 ) {
+        // required to reset scrollheight ... 
+        document.getElementById( "view_request_output_textarea" ).style.height = 0;
+    }
+    ga.valid.clearerrorcounter();
+
+     $("#view_request :input" ).each(function() {
+       var t = $("#" + $( this ).attr( "id" ));
+       //console.log ("ID: " +  "#" + $( this ).attr( "id" ) + "_msg");
+       t.val( t.attr( "value" ) );
+       $( "#" + $( this ).attr( "id" ) + "_msg" ).html( "" );
+     });
+     
+     $("#view_request_output :input" ).each(function() {
+       var t = $("#" + $( this ).attr( "id" ));
+       //console.log ("ID: " +  "#" + $( this ).attr( "id" ) + "_msg");
+       t.val( t.attr( "value" ) );
+       $( "#" + $( this ).attr( "id" ) + "_msg" ).html( "" );
+     });
+
+     $("#view_request_output_msgs").text("");
+     $("#logfile_filelink").html("");
+
+
+    return false;
+}
+
+
+setHoverHelp();
+</script>
 
 </form>
 
+<!-- - ----------------------------------------------------------------------------------------------------->
+
+<div id="view_request_results"></div>
+<script>
+ga.tmp.html = "<hr>";
+$("#view_request").append( ga.tmp.html );
+</script>
+
+<!-- - ----------------------------------------------------------------------------------------------------->
+
+<form id="view_request_output" style="width:800px;margin-left:100px">
+<div id="view_request_output_msgs" class="warning" type="msgs"></div>
+<span id="view_request_output_airavata"></span>
+
+<table>
+  <tr>
+    <td colspan="4" style="vertical-align:top"><label hidden id="view_request_output_textarea_label" for="view_request_output_textarea" class="header3 ">Report:</label>
+      <textarea readonly hidden id="view_request_output_textarea" cols="60" class="help_link"></textarea>
+      <span class="help">general textarea help</span>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <tr><td><label for="view_request_userreport"> </label></td><td><div name="view_request_userreport" id="view_request_userreport" type="div"></div></td></tr>
+    </td>
+  </tr>
+<script>
+//$( "#view_request_userreport" ).attr( "type", "div" );
+//ga.value.setLastValue( "view_request_output", "#view_request_userreport" );
+</script>
+</table>
+
+</form>
