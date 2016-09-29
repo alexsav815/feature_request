@@ -35,7 +35,7 @@ this_eval = 'ga.value.registerid("enter_request","description","Description","te
 
 input_html += this_html;
 input_eval += this_eval;
-this_html = '<tr><td><label for="client">Client </label></td><td><select id="client" name="client" class="help_link"><option value="ca">Client A</option><option value="cb">Client B</option><option value="cc">Client C</option></select>'
+this_html = '<tr><td><label for="client">Client </label></td><td><select id="client" name="client" class="help_link"><option value="Client A">Client A</option><option value="Client B">Client B</option><option value="Client C">Client C</option></select>'
 + '<span class="help">Chose the client</span>'
 + '</td></tr>';
 
@@ -65,7 +65,7 @@ this_eval = 'ga.value.setLastValue( "enter_request", "#priority" );'
 
 input_html += this_html;
 input_eval += this_eval;
-this_html = '<tr><td><label for="targetdate">Target Date </label></td><td><input type="text" name="targetdate" id="targetdate" required pattern="^(0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])[- /.](19|20)[0-9][0-9]$"  class="help_link"><span class="help">Enter target date: MM/DD/YYYY</span><span id="targetdate_msg" class="warning field_msg" > </span></td></tr>';
+this_html = '<tr><td><label for="targetdate">Target Date </label></td><td><input type="text" name="targetdate" id="targetdate" required pattern="^(0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])[- /.](19|20)[0-9][0-9]$"  placeholder="MM/DD/YYYY" class="help_link"><span class="help">Enter target date</span><span id="targetdate_msg" class="warning field_msg" > </span></td></tr>';
 this_eval = 'ga.value.registerid("enter_request","targetdate","Target Date","text");'
 + '$( "#targetdate" ).blur( function() { ga.valid.checkText( "#targetdate" ); });'
 + 
@@ -160,7 +160,16 @@ function do_enter_request_submit( $form, airavataresource, skipcached ) {
             } )
     .done( function( data, status, xhr ) {
           job_status = ga.data.update( "enter_request", data ).job_status;
+          
+         $("#enter_request :input" ).each(function() {
+         var t = $("#" + $( this ).attr( "id" ));
+         //console.log ("ID: " +  "#" + $( this ).attr( "id" ) + "_msg");
+         t.val( t.attr( "value" ) );
+         $( "#" + $( this ).attr( "id" ) + "_msg" ).html( "" );
+       });         
+
      })
+
     .fail( function( xhr, status, errorThrown ) {
          $( "#enter_request_results" ).html( "<span class=\"warning\"> Failed: " + status + " : '" + xhr.status + ":" + errorThrown + "' on URL ajax/enter_request.php </span>" );
          $('#enter_request_progress').html( "" );

@@ -996,7 +996,7 @@ ga.data.update = function( mod, data, msging_f, msg_id ) {
     
     if ( state_changed )
     {
-        syncState();
+    //    syncState();
     }
     if ( do_close )
     {
