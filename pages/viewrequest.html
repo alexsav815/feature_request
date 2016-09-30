@@ -141,6 +141,8 @@ view_request_reset = function() {
      });
 
      $("#view_request_output_msgs").text("");
+     $("#view_request_userreport").html("");
+    
      $("#logfile_filelink").html("");
 
 
@@ -176,11 +178,11 @@ $("#view_request").append( ga.tmp.html );
   </tr>
   <tr>
     <td>
-      <tr><td><label for="view_request_userreport"> </label></td><td><div name="view_request_userreport" id="view_request_userreport" type="div"></div></td></tr>
+      <tr><td><label for="view_request_userreport"> </label></td><td><div name="view_request_userreport" id="view_request_userreport"></div></td></tr>
     </td>
   </tr>
 <script>
-//$( "#view_request_userreport" ).attr( "type", "div" );
+$( "#view_request_userreport" ).attr( "type", "div" );
 //ga.value.setLastValue( "view_request_output", "#view_request_userreport" );
 </script>
 </table>

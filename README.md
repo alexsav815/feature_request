@@ -3,7 +3,7 @@ Prototype for enetring/viewing/sorting feature requests.
 
 Currently, request data can be entered to database ('Enter Request'). For the same client, request priorities are updated based on the current eneterd priority. 
 
-'View Requests' has been added. It's currently in its simplest form: based on the client selection, it outputs all requests sorted by priorities..
+'View Requests' has been added. It's currently in its simplest form: based on the client selection, it outputs all requests sorted by priorities. Description information is shown upon mouse hovering.
 
 The web application utilizes the following stack: <br>
 1) Server: Apache 2.4.7/Ubuntu OS <br>

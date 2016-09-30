@@ -51,6 +51,9 @@ ksort( $req_priority );
 
 foreach ( $req_priority as $v ) {
     $name = $v[ 'clientid' ];
+    $link_id = $v[ 'clientid' ] . "_" . $v[ 'priority' ]; 
+    $link_id = preg_replace('/\s+/', '', $link_id);
+    
     $userinfo[] =
         array(
             "Name"             => $name
@@ -58,13 +61,13 @@ foreach ( $req_priority as $v ) {
 	    ,"Title" 	       => $v[ 'title' ]
 	    ,"Date"	       => $v[ 'targetdate' ]
 	    ,"Product"	       => $v[ 'productarea' ]
+	    ,"Description"     => "<div id='$link_id' class='description description_link_on'>" . "description" . "</div><span class='description_box'>" . $v['description'] . "</span>"
             );
  
 }
 
 // HTML Table//////
 $html_userinfo = "<table class='padcell'><tr><th>" . implode( "</th><th>", array_keys( $userinfo[ 0 ] ) ) . "</th></tr>";
-//$html_userinfo = "<table><tr><th>" . implode( "</th><th>", array_keys( $userinfo[ 0 ] ) ) . "</th></tr>";
 //$html_userinfo .= "<tr><td>" . implode( "</td><td> ",  $totals_info ) . "</td></tr>";
 
 foreach ( $userinfo as $k => $v ) {
