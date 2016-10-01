@@ -157,18 +157,40 @@ function do_enter_request_submit( $form, airavataresource, skipcached ) {
              },
              contentType: false,
              processData: false
-            } )
+    } )
     .done( function( data, status, xhr ) {
-          job_status = ga.data.update( "enter_request", data ).job_status;
-          
-         $("#enter_request :input" ).each(function() {
-         var t = $("#" + $( this ).attr( "id" ));
-         //console.log ("ID: " +  "#" + $( this ).attr( "id" ) + "_msg");
-         t.val( t.attr( "value" ) );
-         $( "#" + $( this ).attr( "id" ) + "_msg" ).html( "" );
-       });         
+      job_status = ga.data.update( "enter_request", data ).job_status;
 
-     })
+      
+      messagebox( {
+        text : 
+               'Request entry has been successfully added to database... <br> Do you want to submit another entry?' +
+	       '<table cellpadding="10">' +
+               '<th></th>' +
+               '<tr>' +
+               '<td><div id="splash_yes" class="hoverhighlight_1">Yes</div></td>' +
+	       '<td></td>' + '<td></td>' +
+               '<td><div id="splash_no" class="hoverhighlight_1">No</div></td>' +
+	       '</tr>' +
+	       '</table>' 
+	,eval :
+	       '$( "#splash_yes" ).click( function() {' +
+	       '$( ".modalDialog5" ).removeClass( "modalDialog5_on" );' +
+	       'enter_request_reset();' +
+               '});' +
+               
+	       '$( "#splash_no" ).click( function() {' +
+	       '$( ".modalDialog5" ).removeClass( "modalDialog5_on" );' +
+	       'menuOnOff();'+
+               '$( "#welcome" ).trigger( "click" );' +
+               '});'
+      }		  
+		 ,0
+		 ,5
+	
+      );
+      
+    })
 
     .fail( function( xhr, status, errorThrown ) {
          $( "#enter_request_results" ).html( "<span class=\"warning\"> Failed: " + status + " : '" + xhr.status + ":" + errorThrown + "' on URL ajax/enter_request.php </span>" );
@@ -238,7 +260,7 @@ $("#enter_request").append( ga.tmp.html );
   </tr>
   <tr>
     <td>
-      <label for="status">Status </label></td><td><textarea name="status" id="status" rows="4" cols="50" readonly></textarea>
+      <label for="status">Status </label></td><td><textarea name="status" id="status" rows="2" cols="60" readonly></textarea>
     </td>
   </tr>
 </table>

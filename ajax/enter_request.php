@@ -79,7 +79,7 @@ try {
 }
 
 
-$results[ 'status' ] = "Request entry successfully added to database...";
+$results[ 'status' ] = "Request entry has been successfully added to database...";
 
 echo (json_encode($results));
 exit();
