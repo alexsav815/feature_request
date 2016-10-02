@@ -54,8 +54,13 @@ $coll_requests = $m->featurerequest->requests;
 
 /// Update priorities ////////////////////
 
-$filter = array('clientid' => $clientid, 'priority' => array( '$gte' => (int)$priority ));
-$coll_requests->update($filter, array('$inc' => array('priority' => 1) ), array("multiple" => true) );
+$filter_upgrade = array('clientid' => $clientid, 'priority' => array( '$gte' => (int)$priority ));
+$filter_check = array('clientid' => $clientid, 'priority' => (int)$priority );
+
+if (!empty($coll_requests->findOne($filter_check)))
+   {
+      $coll_requests->update($filter_upgrade, array('$inc' => array('priority' => 1) ), array("multiple" => true) );
+   }  				   
 
 ////////////////////////
 
